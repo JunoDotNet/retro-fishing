@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://bemyjmhwjsvro"]
+
+[ext_resource type="Script" uid="uid://cjijoocif8b7v" path="res://ripple.gd" id="1_b3hhm"]
+
+[sub_resource type="TorusMesh" id="TorusMesh_labfn"]
+inner_radius = 0.35
+outer_radius = 0.45
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lfj1i"]
+transparency = 1
+albedo_color = Color(0.418, 0.48640004, 0.76, 1)
+
+[node name="Ripple" type="MeshInstance3D" unique_id=818314398]
+mesh = SubResource("TorusMesh_labfn")
+surface_material_override/0 = SubResource("StandardMaterial3D_lfj1i")
+script = ExtResource("1_b3hhm")
+max_scale = 1.0

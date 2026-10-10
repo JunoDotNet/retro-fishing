@@ -18,6 +18,8 @@ var bob_time: float = 0.0 # tracks time for the bobbing animation
 @export var message_duration: float = 3.0 # how long catch message displays 
 var message_timer: float = 0.0 # counts down until the message resets. 
 
+@export var ripple_scene: PackedScene
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	camera = get_tree().current_scene.get_node("Player/Head/Camera3D")
@@ -50,6 +52,7 @@ func cast_bobber() -> void:
 		water_height,
 		target_position.z
 	)
+	spawn_ripple()
 	is_cast = true
 	
 	message_timer = 0.0 # Cancel any previous message countdown.
@@ -78,3 +81,12 @@ func _process(delta: float) -> void:
 		
 		if message_timer <= 0.0:
 			fishing_status.text = "LEFT CLICK TO CAST"
+
+func spawn_ripple() -> void:
+	if ripple_scene == null:
+		return
+	var ripple = ripple_scene.instantiate()
+	
+	get_tree().current_scene.add_child(ripple)
+	
+	ripple.global_position = global_position + Vector3(0, 0.02, 0)

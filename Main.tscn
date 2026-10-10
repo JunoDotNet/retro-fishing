@@ -2,7 +2,9 @@
 
 [ext_resource type="Script" uid="uid://dsl4f40236uo" path="res://character_body_3d.gd" id="1_glv2v"]
 [ext_resource type="Script" uid="uid://cxmp8h4ax1cpx" path="res://bobber.gd" id="2_uu6xs"]
+[ext_resource type="PackedScene" uid="uid://bemyjmhwjsvro" path="res://ripple.tscn" id="3_cm0pq"]
 [ext_resource type="Script" uid="uid://rhdsvhxssk7y" path="res://fishing_line.gd" id="3_r0du0"]
+[ext_resource type="Script" uid="uid://7mq1xx3kgqg" path="res://ripple_spawner.gd" id="5_fos0i"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_glv2v"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -99,7 +101,7 @@ mesh = SubResource("BoxMesh_3txd2")
 shape = SubResource("BoxShape3D_j33dl")
 
 [node name="Player" type="CharacterBody3D" parent="." unique_id=834597658]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -22.056595)
 script = ExtResource("1_glv2v")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player" unique_id=1462289781]
@@ -122,6 +124,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0)
 mesh = SubResource("SphereMesh_labfn")
 script = ExtResource("2_uu6xs")
 water_height = -0.5
+ripple_scene = ExtResource("3_cm0pq")
 
 [node name="BobberTip" type="Marker3D" parent="Bobber" unique_id=2061060405]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.060795784, 0)
@@ -140,3 +143,9 @@ text = "LEFT CLICK TO CAST"
 script = ExtResource("3_r0du0")
 rod_path = NodePath("../Player/Head/Camera3D/FishingRod")
 bobber_path = NodePath("../Bobber")
+
+[node name="RippleSpawner" type="Node3D" parent="." unique_id=709672991]
+script = ExtResource("5_fos0i")
+ripple_scene = ExtResource("3_cm0pq")
+bobber_path = NodePath("../Bobber")
+hooked_interval = 0.3
