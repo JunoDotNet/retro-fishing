@@ -9,7 +9,6 @@ extends RigidBody3D
 @onready var fishing_status: Label = get_node("/root/Main/HUD/FishingStatus")
 
 @onready var water_detector: RayCast3D = $"../WaterDetector1"
-@onready var ripple_spawner: Node3D = $"../RippleSpawner"
 
 
 @export var bob_height: float = 0.05
@@ -34,6 +33,7 @@ var message_timer: float = 0.0
 
 func _ready() -> void:
 	freeze = true
+	global_position = rod_tip.global_position + Vector3(0, -0.25, 0)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed:
@@ -71,37 +71,37 @@ func cast_bobber() -> void:
 	
 
 	# If water is found, launch the physics bobber.
-	global_position = rod_tip.global_position
+	global_position = rod_tip.global_position + Vector3(0, -0.25, 0)
 	freeze = false
 	sleeping = false
 	is_cast = true
-	has_bite = false
 	bite_timer = randf_range(min_bite_time, max_bite_time)
 	
 
 	linear_velocity = forward.normalized() * launch_speed
 	linear_velocity.y += launch_upward_force
 
-	fishing_status.text = "Waiting for a bite..."
+	fishing_status.text = "RIGHT CLICK TO STOP THE BOBBER"
 
 func break_on_water() -> void:
 	linear_velocity = Vector3.ZERO
 	angular_velocity = Vector3.ZERO
 	freeze = true
 	is_settled = true
-	
+	fishing_status.text = "Waiting for a bite..."
 
 func reset_bobber() -> void:
 	freeze = false
 	linear_velocity = Vector3.ZERO
 	angular_velocity = Vector3.ZERO
 
-	global_transform.origin = rod_tip.global_position
+	global_position = rod_tip.global_position + Vector3(0, -0.25, 0)
 	is_cast = false
 	is_settled = false
 	has_bite = false
 	bite_timer = 0.0
 	message_timer = 0.0
+	bob_time = 0.0
 
 	freeze = true
 	sleeping = true
@@ -110,9 +110,12 @@ func reset_bobber() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if not is_cast:
+		global_position = rod_tip.global_position + Vector3(0, -0.25, 0)
+		
 	if message_timer > 0.0:
 		message_timer -= delta
-		if message_timer <= 0.0:
+		if message_timer <= 0.0 and not is_cast:
 			fishing_status.text = "LEFT CLICK TO CAST"
 	
 	if not is_cast:

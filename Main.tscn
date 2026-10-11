@@ -89,6 +89,8 @@ mesh = SubResource("CylinderMesh_labfn")
 [node name="RodTip" type="Marker3D" parent="Player/Head/Camera3D/FishingRod" unique_id=267287123]
 transform = Transform3D(0.99662936, 0.03982131, -0.07172261, -0.03973136, 0.99920666, 0.0026817918, 0.07177251, 0.00017690659, 0.997421, 0.0060815215, 0.4075117, -0.018538952)
 
+[node name="FishingSystem" parent="." unique_id=1047327645 instance=ExtResource("2_uu6xs")]
+
 [node name="Dock" type="StaticBody3D" parent="." unique_id=976060238]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.22558188, -24.858587)
 
@@ -97,8 +99,6 @@ mesh = SubResource("BoxMesh_3txd2")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Dock" unique_id=1684460304]
 shape = SubResource("BoxShape3D_j33dl")
-
-[node name="FishingSystem" parent="." unique_id=1047327645 instance=ExtResource("2_uu6xs")]
 
 [node name="Ground" type="StaticBody3D" parent="." unique_id=1482405544]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)

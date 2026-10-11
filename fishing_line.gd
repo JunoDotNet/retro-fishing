@@ -23,7 +23,7 @@ func _process(delta: float) -> void:
 	line_mesh.clear_surfaces() # Clear the previous frame's geometry.
 	
 	var start: Vector3 = rod.get_node("RodTip").global_position # Get the global position of the RodTip marker, this is where the fishing line will start
-	var finish: Vector3 = bobber.get_node("BobberTip").global_position # Get the global pos of the bobber marker, this is where the fishing line will end
+	var finish: Vector3 = bobber.global_position # Get the global pos of the bobber marker, this is where the fishing line will end
 	
 	line_mesh.surface_begin(Mesh.PRIMITIVE_LINES) # Start creating line geometry
 	
