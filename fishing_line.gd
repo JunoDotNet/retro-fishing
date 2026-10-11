@@ -12,8 +12,8 @@ var line_mesh: ImmediateMesh # Stores the mesh that we'll generate to draw the f
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	rod = get_node(rod_path) # find the fishing rod 
-	bobber = get_node(bobber_path) # find the bobber 
+	rod = get_node("../../Player/Head/Camera3D/FishingRod") # find the fishing rod 
+	bobber = get_node("../Bobber") # find the bobber 
 	
 	line_mesh = ImmediateMesh.new() # Create an empty mesh that we can build geometry into.
 	mesh = line_mesh # allowing the generated geometry to be rendered

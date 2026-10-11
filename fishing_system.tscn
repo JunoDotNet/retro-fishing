@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://d0a4bou53pk5a"]
+
+[ext_resource type="Script" uid="uid://cxmp8h4ax1cpx" path="res://bobber.gd" id="1_bn0ug"]
+[ext_resource type="PackedScene" uid="uid://bemyjmhwjsvro" path="res://ripple.tscn" id="2_js6um"]
+[ext_resource type="Script" uid="uid://rhdsvhxssk7y" path="res://fishing_line.gd" id="3_41kqn"]
+[ext_resource type="Script" uid="uid://7mq1xx3kgqg" path="res://ripple_spawner.gd" id="4_mjktp"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j33dl"]
+albedo_color = Color(0.59603685, 0.32499295, 0.08510705, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_h8ar1"]
+material = SubResource("StandardMaterial3D_j33dl")
+radius = 0.08
+height = 0.16
+
+[node name="FishingSystem" type="Node3D" unique_id=1047327645]
+
+[node name="Bobber" type="MeshInstance3D" parent="." unique_id=1474563460]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0)
+mesh = SubResource("SphereMesh_h8ar1")
+script = ExtResource("1_bn0ug")
+water_height = -0.5
+ripple_scene = ExtResource("2_js6um")
+
+[node name="BobberTip" type="Marker3D" parent="Bobber" unique_id=1625694856]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.060795784, 0)
+
+[node name="FishingLine" type="MeshInstance3D" parent="." unique_id=1461083054]
+script = ExtResource("3_41kqn")
+rod_path = NodePath("../Player/Head/Camera3D/FishingRod")
+bobber_path = NodePath("../Bobber")
+
+[node name="RippleSpawner" type="Node3D" parent="." unique_id=946438037]
+script = ExtResource("4_mjktp")
+ripple_scene = ExtResource("2_js6um")
+bobber_path = NodePath("../Bobber")
+hooked_interval = 0.3
