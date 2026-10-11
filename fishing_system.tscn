@@ -16,7 +16,6 @@ height = 0.16
 [node name="FishingSystem" type="Node3D" unique_id=1047327645]
 
 [node name="Bobber" type="MeshInstance3D" parent="." unique_id=1474563460]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0)
 mesh = SubResource("SphereMesh_h8ar1")
 script = ExtResource("1_bn0ug")
 water_height = -0.5
@@ -24,6 +23,10 @@ ripple_scene = ExtResource("2_js6um")
 
 [node name="BobberTip" type="Marker3D" parent="Bobber" unique_id=1625694856]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.060795784, 0)
+
+[node name="WaterDetector" type="RayCast3D" parent="Bobber" unique_id=273543134]
+target_position = Vector3(0, -20, 0)
+collision_mask = 2
 
 [node name="FishingLine" type="MeshInstance3D" parent="." unique_id=1461083054]
 script = ExtResource("3_41kqn")

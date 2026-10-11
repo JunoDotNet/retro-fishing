@@ -52,6 +52,13 @@ albedo_color = Color(0.10285754, 0.24353847, 0.49043596, 1)
 material = SubResource("StandardMaterial3D_vsfib")
 size = Vector3(40, 1, 41)
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_uu6xs"]
+height = 0.20031738
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_r0du0"]
+material = SubResource("StandardMaterial3D_vsfib")
+height = 0.2
+
 [node name="Main" type="Node3D" unique_id=1389547430]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=2031753600]
@@ -64,6 +71,7 @@ shadow_enabled = true
 [node name="Player" type="CharacterBody3D" parent="." unique_id=834597658]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -22.056595)
 collision_layer = 4
+collision_mask = 3
 script = ExtResource("1_glv2v")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player" unique_id=1462289781]
@@ -112,6 +120,18 @@ shape = SubResource("BoxShape3D_3txd2")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Lake" unique_id=896204008]
 mesh = SubResource("BoxMesh_j33dl")
+
+[node name="Pond" type="StaticBody3D" parent="." unique_id=948370783]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.818088, 0.00058174133, 1.7185478)
+collision_layer = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Pond" unique_id=930096494]
+transform = Transform3D(12, 0, 0, 0, 12, 0, 0, 0, 12, 0, 0.08129883, 0)
+shape = SubResource("CylinderShape3D_uu6xs")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Pond" unique_id=939004085]
+transform = Transform3D(12, 0, 0, 0, 12, 0, 0, 0, 12, 0, 0.07125002, 0)
+mesh = SubResource("CylinderMesh_r0du0")
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=1461017625]
 
