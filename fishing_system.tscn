@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://bemyjmhwjsvro" path="res://ripple.tscn" id="2_js6um"]
 [ext_resource type="Script" uid="uid://rhdsvhxssk7y" path="res://fishing_line.gd" id="3_41kqn"]
 [ext_resource type="Script" uid="uid://7mq1xx3kgqg" path="res://ripple_spawner.gd" id="4_mjktp"]
+[ext_resource type="PackedScene" uid="uid://dbgfuin3ilxui" path="res://physics_bobber.tscn" id="5_js6um"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j33dl"]
 albedo_color = Color(0.59603685, 0.32499295, 0.08510705, 1)
@@ -36,5 +37,11 @@ bobber_path = NodePath("../Bobber")
 [node name="RippleSpawner" type="Node3D" parent="." unique_id=946438037]
 script = ExtResource("4_mjktp")
 ripple_scene = ExtResource("2_js6um")
-bobber_path = NodePath("../Bobber")
+bobber_path = NodePath("../PhysicsBobber")
 hooked_interval = 0.3
+
+[node name="PhysicsBobber" parent="." unique_id=667233103 instance=ExtResource("5_js6um")]
+
+[node name="WaterDetector1" type="RayCast3D" parent="." unique_id=1347113192]
+target_position = Vector3(0, -20, 0)
+collision_mask = 2

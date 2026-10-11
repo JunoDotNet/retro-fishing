@@ -13,7 +13,7 @@ var line_mesh: ImmediateMesh # Stores the mesh that we'll generate to draw the f
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	rod = get_node("../../Player/Head/Camera3D/FishingRod") # find the fishing rod 
-	bobber = get_node("../Bobber") # find the bobber 
+	bobber = get_node("../PhysicsBobber") # find the bobber 
 	
 	line_mesh = ImmediateMesh.new() # Create an empty mesh that we can build geometry into.
 	mesh = line_mesh # allowing the generated geometry to be rendered
@@ -22,8 +22,6 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	line_mesh.clear_surfaces() # Clear the previous frame's geometry.
 	
-	if not bobber.is_cast: # prevents line from displaying if rod isnt casted 
-		return
 	var start: Vector3 = rod.get_node("RodTip").global_position # Get the global position of the RodTip marker, this is where the fishing line will start
 	var finish: Vector3 = bobber.get_node("BobberTip").global_position # Get the global pos of the bobber marker, this is where the fishing line will end
 	

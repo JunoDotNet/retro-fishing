@@ -11,13 +11,14 @@ extends MeshInstance3D
 var bite_timer: float = 0.0 # counts down until a fish bites
 var has_bite: bool = false # tracks if fish is biting
 
-@onready var rod_tip: Marker3D = get_tree().current_scene.get_node("Player/Head/Camera3D/FishingRod/RodTip")
+@onready var rod_tip: Marker3D = get_tree().root.get_node("Main/Player/Head/Camera3D/FishingRod/RodTip")
+@onready var physics_bobber: RigidBody3D = get_node("../PhysicsBobber")
 
 var is_cast: bool = false # has the bobber been cast 
 var camera: Camera3D # ref to player camera
 var bob_time: float = 0.0 # tracks time for the bobbing animation
 
-@onready var fishing_status: Label = get_tree().current_scene.get_node("HUD/FishingStatus") # calls fishing label to scene 
+@onready var fishing_status: Label = get_tree().root.get_node("Main/HUD/FishingStatus")
 @export var message_duration: float = 3.0 # how long catch message displays 
 var message_timer: float = 0.0 # counts down until the message resets. 
 
@@ -29,25 +30,15 @@ func _ready() -> void:
 	return_to_rod()
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		cast_bobber()
-		
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
-		fishing_status.text = "LEFT CLICK TO CAST"
-		message_timer = message_duration # start the message countdown 
-		is_cast = false # resets cast 
-		has_bite = false # resets has bites
-		return_to_rod()
-		
-	if event.is_action_pressed("reel_in") and has_bite: # if user presses e and has a bite they can reel in the fish 
-		fishing_status.text = "YOU CAUGHT A FISH!!" 
-		message_timer = 0.0
-		is_cast = false # resets cast 
-		has_bite = false # resets has bites
-		return_to_rod()
+	pass
 
 func cast_bobber() -> void:
+	if physics_bobber.is_cast:
+		return
 	var forward := -camera.global_basis.z
+	physics_bobber.global_position = rod_tip.global_position
+	physics_bobber.launch(forward)
+	return
 	var target_position := camera.global_position + forward * cast_distance # calulates where the bobber should land 
 	
 	water_detector.global_position = Vector3(
@@ -83,19 +74,7 @@ func _process(delta: float) -> void:
 		global_position = rod_tip.global_position + Vector3(0, -0.3, 0)
 	
 	if is_cast: # only animate bobber after it has been cast 
-		bob_time += delta
-		
-		if has_bite:
-			global_position.y = water_height - 0.05
-		else:
-			global_position.y = water_height + sin(bob_time * bob_speed) * bob_height # move bobber veritcally using a sine wave 
-		
-		if not has_bite:
-			bite_timer -= delta
-			
-			if bite_timer <= 0.0:
-				has_bite =  true
-				fishing_status.text = "FISH ON THE HOOK! PRESS E"
+		pass
 	if message_timer > 0.0:
 		message_timer -=delta
 		
@@ -117,4 +96,8 @@ func get_water_surface_position() -> Vector3:
 	return global_position
 
 func return_to_rod() -> void:
+	if rod_tip == null:
+		print("ERROR: rod_tip was not found")
+		return
+
 	global_position = rod_tip.global_position
