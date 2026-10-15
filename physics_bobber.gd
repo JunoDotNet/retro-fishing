@@ -16,7 +16,6 @@ extends RigidBody3D
 
 var bob_time: float = 0.0
 
-
 var is_cast: bool = false
 var is_settled: bool = false
 
