@@ -34,6 +34,8 @@ bobber_path = NodePath("../PhysicsBobber")
 hooked_interval = 0.3
 
 [node name="PhysicsBobber" parent="." unique_id=667233103 instance=ExtResource("5_js6um")]
+contact_monitor = true
+max_contacts_reported = 4
 
 [node name="DragParticles" type="GPUParticles3D" parent="PhysicsBobber" unique_id=1364995607]
 emitting = false

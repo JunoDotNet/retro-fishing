@@ -13,11 +13,15 @@ extends RigidBody3D
 
 @export var bob_height: float = 0.05
 @export var bob_speed: float = 2.0
+@export var water_drag: float = 0.5
 
 var bob_time: float = 0.0
+var settle_timer: float = 0.0
+@export var settle_delay: float = 1.0
 
 var is_cast: bool = false
 var is_settled: bool = false
+var has_touched_water: bool = false
 
 var water_height: float = 0.0
 var has_bite: bool = false
@@ -50,6 +54,7 @@ func cast_bobber() -> void:
 	var forward := -camera.global_basis.z
 	var target_position := camera.global_position + forward * 8.0
 	is_settled = false
+	has_touched_water = false
 
 	# Position the existing ray above the target and check for water.
 	water_detector.global_position = Vector3(
@@ -101,6 +106,7 @@ func reset_bobber() -> void:
 	bite_timer = 0.0
 	message_timer = 0.0
 	bob_time = 0.0
+	has_touched_water = false
 
 	freeze = true
 	sleeping = true
@@ -135,5 +141,24 @@ func _physics_process(delta: float) -> void:
 	if is_settled and is_cast:
 		bob_time += delta
 		global_position.y = water_height + sin(bob_time * bob_speed) * bob_height
-	
 		
+	if is_cast and not is_settled and global_position.y <= water_height + 0.1:
+		has_touched_water = true
+	if has_touched_water:
+		var drag_multiplier = exp(-water_drag * delta)
+		linear_velocity.x *= drag_multiplier
+		linear_velocity.z *= drag_multiplier
+		
+	var horizontal_speed = Vector2(linear_velocity.x, linear_velocity.z).length()
+
+	if has_touched_water and not is_settled and horizontal_speed < 0.5:
+		settle_timer += delta
+
+		if settle_timer >= settle_delay:
+				is_settled = true
+				linear_velocity = Vector3.ZERO
+				angular_velocity = Vector3.ZERO
+				bite_timer = randf_range(min_bite_time, max_bite_time)
+				fishing_status.text = "Waiting for a bite..."
+	else:
+		settle_timer = 0.0
