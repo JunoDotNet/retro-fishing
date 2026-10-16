@@ -42,8 +42,14 @@ func _physics_process(delta: float) -> void:
 			current_acceleration * delta
 		)
 	else:
-		velocity.x = move_toward(velocity.x, 0, deceleration * delta)
-		velocity.z = move_toward(velocity.z, 0, deceleration * delta)
+		var horizontal_velocity := Vector3(velocity.x, 0, velocity.z)
+		horizontal_velocity = horizontal_velocity.move_toward(
+			Vector3.ZERO,
+			deceleration * delta
+		)
+
+		velocity.x = horizontal_velocity.x
+		velocity.z = horizontal_velocity.z
 
 
 	move_and_slide()

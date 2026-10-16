@@ -8,7 +8,7 @@ outer_radius = 0.45
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lfj1i"]
 transparency = 1
-albedo_color = Color(0.418, 0.48640004, 0.76, 1)
+albedo_color = Color(0.2074, 0.61, 0.51606, 1)
 
 [node name="Ripple" type="MeshInstance3D" unique_id=818314398]
 mesh = SubResource("TorusMesh_labfn")

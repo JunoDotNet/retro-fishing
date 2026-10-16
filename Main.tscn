@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dsl4f40236uo" path="res://character_body_3d.gd" id="1_glv2v"]
 [ext_resource type="PackedScene" uid="uid://d0a4bou53pk5a" path="res://fishing_system.tscn" id="2_uu6xs"]
+[ext_resource type="Shader" uid="uid://b4wiwgevpjhcn" path="res://Main.gdshader" id="3_r0du0"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_glv2v"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -45,15 +46,37 @@ size = Vector3(40, 1, 40)
 [sub_resource type="BoxShape3D" id="BoxShape3D_3txd2"]
 size = Vector3(40, 1, 41)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vsfib"]
-albedo_color = Color(0.10285754, 0.24353847, 0.49043596, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uu6xs"]
+transparency = 1
+albedo_color = Color(0.13725491, 0.37254903, 0.4117647, 0.5882353)
+roughness = 0.3
 
 [sub_resource type="BoxMesh" id="BoxMesh_j33dl"]
-material = SubResource("StandardMaterial3D_vsfib")
+material = SubResource("StandardMaterial3D_uu6xs")
 size = Vector3(40, 1, 41)
+subdivide_width = 100
+subdivide_depth = 100
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cm0pq"]
+render_priority = 0
+shader = ExtResource("3_r0du0")
+shader_parameter/water_color = Color(0.14, 0.37, 0.41, 0.59)
+shader_parameter/dark_water = Color(0.025, 0.09, 0.11, 1)
+shader_parameter/light_water = Color(0.3, 0.48, 0.46, 1)
+shader_parameter/wave_strength = 0.035
+shader_parameter/wave_speed = 0.8
+shader_parameter/contrast = 0.65
+shader_parameter/pattern_scale = 0.35
+shader_parameter/foam_scale = 0.8
+shader_parameter/foam_speed = 0.3
+shader_parameter/foam_amount = 1.35
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_uu6xs"]
 height = 0.20031738
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vsfib"]
+transparency = 1
+albedo_color = Color(0.10285754, 0.24353847, 0.49043596, 1)
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_r0du0"]
 material = SubResource("StandardMaterial3D_vsfib")
@@ -120,6 +143,7 @@ shape = SubResource("BoxShape3D_3txd2")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Lake" unique_id=896204008]
 mesh = SubResource("BoxMesh_j33dl")
+surface_material_override/0 = SubResource("ShaderMaterial_cm0pq")
 
 [node name="Pond" type="StaticBody3D" parent="." unique_id=948370783]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.818088, 0.00058174133, 1.7185478)
