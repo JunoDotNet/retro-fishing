@@ -117,7 +117,7 @@ void fragment() {
     vec3 foam_color = vec3(0.82, 0.90, 0.84);
 
 	ALBEDO = mix(water, foam_color, foam * 0.9);
-	// ALPHA = mix(water_color.a, 1.0, foam * 0.9);
+	ALPHA = mix(water_color.a, 1.0, foam * 0.9);
 	// Make distant water smoother.
 	vec3 camera_position = INV_VIEW_MATRIX[3].xyz;
 	float camera_distance = distance(world_position, camera_position);

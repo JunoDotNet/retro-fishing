@@ -1,0 +1,17 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://nk85ty24dxs4"]
+
+[ext_resource type="Shader" uid="uid://b4wiwgevpjhcn" path="res://Main.gdshader" id="1_pmio7"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_pmio7")
+shader_parameter/water_color = Color(0.14, 0.37, 0.41, 0.59)
+shader_parameter/dark_water = Color(0.025, 0.09, 0.11, 1)
+shader_parameter/light_water = Color(0.3, 0.48, 0.46, 1)
+shader_parameter/wave_strength = 0.035
+shader_parameter/wave_speed = 0.8
+shader_parameter/contrast = 0.65
+shader_parameter/pattern_scale = 0.35
+shader_parameter/foam_scale = 0.8
+shader_parameter/foam_speed = 0.3
+shader_parameter/foam_amount = 1.35

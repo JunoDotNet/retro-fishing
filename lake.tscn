@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://cm1t5kuce328c"]
+
+[ext_resource type="Material" uid="uid://b5uttkmgvsfjx" path="res://water_materialBase.tres" id="1_nwgpg"]
+[ext_resource type="Material" uid="uid://nk85ty24dxs4" path="res://water_material.tres" id="2_5qfex"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3txd2"]
+size = Vector3(40, 1, 41)
+
+[sub_resource type="BoxMesh" id="BoxMesh_j33dl"]
+material = ExtResource("1_nwgpg")
+size = Vector3(40, 1, 41)
+subdivide_width = 100
+subdivide_depth = 100
+
+[node name="Lake" type="StaticBody3D" unique_id=748598487]
+collision_layer = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=874374292]
+shape = SubResource("BoxShape3D_3txd2")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=746033529]
+mesh = SubResource("BoxMesh_j33dl")
+surface_material_override/0 = ExtResource("2_5qfex")
