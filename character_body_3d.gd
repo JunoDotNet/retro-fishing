@@ -2,6 +2,9 @@ extends CharacterBody3D
 
 
 const SPEED = 5.0
+@export var acceleration: float = 20.0
+@export var deceleration: float = 15.0
+@export var air_control: float = 0.4
 const JUMP_VELOCITY = 4.5
 
 @export var mouse_sensitivity: float = 0.002 # allows players to control mouse senesitivity 
@@ -24,12 +27,24 @@ func _physics_process(delta: float) -> void:
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var input_dir := Input.get_vector("player_left", "player_right", "player_forward", "player_back")
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	
+	var current_acceleration = acceleration if is_on_floor() else acceleration * air_control
+	
 	if direction:
-		velocity.x = direction.x * SPEED
-		velocity.z = direction.z * SPEED
+		velocity.x = move_toward(
+			velocity.x,
+			direction.x * SPEED,
+			current_acceleration * delta
+		)
+		velocity.z = move_toward(
+			velocity.z,
+			direction.z * SPEED,
+			current_acceleration * delta
+		)
 	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-		velocity.z = move_toward(velocity.z, 0, SPEED)
+		velocity.x = move_toward(velocity.x, 0, deceleration * delta)
+		velocity.z = move_toward(velocity.z, 0, deceleration * delta)
+
 
 	move_and_slide()
 
