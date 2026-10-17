@@ -3,8 +3,6 @@ extends Node3D
 @export var bobber: FishingBobber
 @export var fishing_status: Label
 
-@onready var water_detector: RayCast3D = $WaterDetector1
-
 @export var min_bite_time: float = 3.0
 @export var max_bite_time: float = 8.0
 
@@ -87,28 +85,30 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			if current_state == FishingState.IDLE:
-				var forward := -camera.global_basis.z
-				var start_position := rod_tip.global_position + Vector3(0, -0.25, 0)
-				var target_position := start_position + forward * 8.0
-				water_detector.global_position = Vector3(
-					target_position.x,
-					target_position.y + 20.0,
-					target_position.z
-				)
-				water_detector.target_position = Vector3(0, -40, 0)
-				water_detector.force_raycast_update()
+				var space_state := get_world_3d().direct_space_state
 
-				if water_detector.is_colliding():
+				var query := PhysicsRayQueryParameters3D.create(
+					camera.global_position,
+					camera.global_position - camera.global_basis.z * 40.0
+				)
+
+				var hit := space_state.intersect_ray(query)
+				
+				if not hit.is_empty() and hit.collider.is_in_group("fishable"):
+					var forward := -camera.global_basis.z
+					var start_position := rod_tip.global_position + Vector3(0, -0.25, 0)
+
 					bobber.cast_bobber(
 						forward,
 						start_position,
-						water_detector.get_collision_point().y
+						hit.position.y
 					)
 					error_message_timer = 0.0
 					change_state(FishingState.CAST)
 				else:
-					show_fishing_message("NO WATER FOUND - AIM AT THE WATER")
+					show_fishing_message("AIM AT THE WATER TO CAST")
 					error_message_timer = 2.0
+					
 			elif current_state == FishingState.CAST:
 				bobber.settle()
 

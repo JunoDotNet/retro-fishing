@@ -15,7 +15,7 @@ subdivide_depth = 100
 [node name="Lake" type="StaticBody3D" unique_id=748598487]
 collision_layer = 2
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=874374292]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=874374292 groups=["fishable"]]
 shape = SubResource("BoxShape3D_3txd2")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=746033529]

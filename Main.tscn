@@ -1,9 +1,8 @@
 [gd_scene format=3 uid="uid://sd71k0y6ys4n"]
 
-[ext_resource type="Script" uid="uid://dsl4f40236uo" path="res://character_body_3d.gd" id="1_glv2v"]
+[ext_resource type="PackedScene" uid="uid://c4owp2r7v8lb4" path="res://player.tscn" id="1_cm0pq"]
 [ext_resource type="PackedScene" uid="uid://d0a4bou53pk5a" path="res://fishing_system.tscn" id="2_uu6xs"]
 [ext_resource type="PackedScene" uid="uid://cm1t5kuce328c" path="res://lake.tscn" id="3_r0du0"]
-[ext_resource type="PackedScene" uid="uid://bxwcn2equb73a" path="res://pond.tscn" id="4_cm0pq"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_glv2v"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -16,17 +15,6 @@ sky_material = SubResource("ProceduralSkyMaterial_glv2v")
 background_mode = 2
 sky = SubResource("Sky_uu6xs")
 glow_enabled = true
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_labfn"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_glv2v"]
-albedo_color = Color(0.35843942, 0.3087948, 0.19817051, 1)
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_labfn"]
-material = SubResource("StandardMaterial3D_glv2v")
-top_radius = 0.015
-bottom_radius = 0.035
-height = 0.8
 
 [sub_resource type="BoxMesh" id="BoxMesh_3txd2"]
 size = Vector3(3.5996094, 0.23413086, 9.907227)
@@ -53,26 +41,8 @@ environment = SubResource("Environment_r0du0")
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
 shadow_enabled = true
 
-[node name="Player" type="CharacterBody3D" parent="." unique_id=834597658]
+[node name="Player" parent="." unique_id=1023061807 instance=ExtResource("1_cm0pq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -22.056595)
-collision_layer = 4
-collision_mask = 3
-script = ExtResource("1_glv2v")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Player" unique_id=1462289781]
-shape = SubResource("CapsuleShape3D_labfn")
-
-[node name="Head" type="Node3D" parent="Player" unique_id=1353482692]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
-
-[node name="Camera3D" type="Camera3D" parent="Player/Head" unique_id=868878482]
-
-[node name="FishingRod" type="MeshInstance3D" parent="Player/Head/Camera3D" unique_id=1243553250]
-transform = Transform3D(0.9810754, -0.10670022, 0.16157386, 0.015264218, 0.8744865, 0.48480958, -0.19302344, -0.47316852, 0.8595659, 0.576, -0.073, -0.6)
-mesh = SubResource("CylinderMesh_labfn")
-
-[node name="RodTip" type="Marker3D" parent="Player/Head/Camera3D/FishingRod" unique_id=267287123]
-transform = Transform3D(0.99662936, 0.03982131, -0.07172261, -0.03973136, 0.99920666, 0.0026817918, 0.07177251, 0.00017690659, 0.997421, 0.0060815215, 0.4075117, -0.018538952)
 
 [node name="FishingSystem" parent="." unique_id=1047327645 instance=ExtResource("2_uu6xs")]
 
@@ -96,8 +66,5 @@ shape = SubResource("BoxShape3D_labfn")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.012092352, 0.02503848, -0.005897999)
 mesh = SubResource("BoxMesh_labfn")
 
-[node name="Lake" parent="." unique_id=748598487 instance=ExtResource("3_r0du0")]
+[node name="Lake" parent="." unique_id=748598487 groups=["fishable"] instance=ExtResource("3_r0du0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, -40)
-
-[node name="Pond" parent="." unique_id=1541909453 instance=ExtResource("4_cm0pq")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.133369, -0.13509393, 6.622718)
