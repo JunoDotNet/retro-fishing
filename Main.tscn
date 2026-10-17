@@ -99,15 +99,5 @@ mesh = SubResource("BoxMesh_labfn")
 [node name="Lake" parent="." unique_id=748598487 instance=ExtResource("3_r0du0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, -40)
 
-[node name="HUD" type="CanvasLayer" parent="." unique_id=1461017625]
-
-[node name="FishingStatus" type="Label" parent="HUD" unique_id=1533000128]
-offset_left = 20.0
-offset_top = 20.0
-offset_right = 420.0
-offset_bottom = 60.0
-theme_override_font_sizes/font_size = 25
-text = "LEFT CLICK TO CAST"
-
 [node name="Pond" parent="." unique_id=1541909453 instance=ExtResource("4_cm0pq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.133369, -0.13509393, 6.622718)

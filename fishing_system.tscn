@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://d0a4bou53pk5a"]
 
+[ext_resource type="Script" uid="uid://c6lcpvk67781a" path="res://fishing_controller.gd" id="1_41kqn"]
 [ext_resource type="PackedScene" uid="uid://bemyjmhwjsvro" path="res://ripple.tscn" id="2_js6um"]
 [ext_resource type="Script" uid="uid://rhdsvhxssk7y" path="res://fishing_line.gd" id="3_41kqn"]
 [ext_resource type="Script" uid="uid://7mq1xx3kgqg" path="res://ripple_spawner.gd" id="4_mjktp"]
@@ -21,17 +22,20 @@ scale_max = 1.5
 radius = 0.025
 height = 0.05
 
-[node name="FishingSystem" type="Node3D" unique_id=1047327645]
+[node name="FishingSystem" type="Node3D" unique_id=1047327645 node_paths=PackedStringArray("bobber", "fishing_status")]
+script = ExtResource("1_41kqn")
+bobber = NodePath("PhysicsBobber")
+fishing_status = NodePath("HUD/FishingStatus")
 
 [node name="FishingLine" type="MeshInstance3D" parent="." unique_id=1461083054]
 script = ExtResource("3_41kqn")
-rod_path = NodePath("../Player/Head/Camera3D/FishingRod")
+rod_tip_path = NodePath("../../Player/Head/Camera3D/FishingRod/RodTip")
+bobber_path = NodePath("../PhysicsBobber")
 
 [node name="RippleSpawner" type="Node3D" parent="." unique_id=946438037]
 script = ExtResource("4_mjktp")
 ripple_scene = ExtResource("2_js6um")
 bobber_path = NodePath("../PhysicsBobber")
-hooked_interval = 0.3
 
 [node name="PhysicsBobber" parent="." unique_id=667233103 instance=ExtResource("5_js6um")]
 contact_monitor = true
@@ -61,3 +65,14 @@ collision_mask = 2
 
 [node name="BobberTip" type="Marker3D" parent="." unique_id=1625694856]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.060795784, 0)
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=2116407462]
+
+[node name="FishingStatus" type="Label" parent="HUD" unique_id=267252874]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 420.0
+offset_bottom = 60.0
+theme_override_font_sizes/font_size = 25
+text = "LEFT CLICK TO CAST"
+metadata/_edit_use_anchors_ = true
