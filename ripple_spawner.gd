@@ -4,7 +4,7 @@ extends Node3D
 @export var bobber_path: NodePath
 @export var ripple_interval: float = 0.8
 
-var bobber: Node3D
+var bobber: FishingBobber
 var ripple_timer: float = 0.0
 
 func _ready() -> void:

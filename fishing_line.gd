@@ -1,34 +1,26 @@
 extends MeshInstance3D
 
 
-@export var rod_tip_path: NodePath
-@export var bobber_path: NodePath
 @export var line_sag: float = 0.8 # controls how far the line curves downwards
 @export var line_segments: int = 12 # controls how many segments the line is made of 
 
-var rod_tip: Marker3D
-var bobber: Node3D # Stores a reference to the bobber node.
+var rod: Node3D # Stores a reference to the fishing rod node.
+var bobber: FishingBobber # Stores a reference to the bobber node.
 var line_mesh: ImmediateMesh # Stores the mesh that we'll generate to draw the fishing line.
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	rod_tip = get_node_or_null(rod_tip_path) as Marker3D
-	bobber = get_node_or_null(bobber_path) as Node3D
-	if not rod_tip or not bobber:
-		push_error("FishingLine requires valid rod tip and bobber node paths.")
-		set_process(false)
-		return
+	rod = get_node("../../Player/Head/Camera3D/FishingRod") # find the fishing rod 
+	bobber = get_node("../PhysicsBobber") # find the bobber 
 	
 	line_mesh = ImmediateMesh.new() # Create an empty mesh that we can build geometry into.
 	mesh = line_mesh # allowing the generated geometry to be rendered
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	if not is_instance_valid(rod_tip) or not is_instance_valid(bobber):
-		return
 	line_mesh.clear_surfaces() # Clear the previous frame's geometry.
 	
-	var start: Vector3 = rod_tip.global_position # Get the global position of the RodTip marker, this is where the fishing line will start
+	var start: Vector3 = rod.get_node("RodTip").global_position # Get the global position of the RodTip marker, this is where the fishing line will start
 	var finish: Vector3 = bobber.global_position # Get the global pos of the bobber marker, this is where the fishing line will end
 	
 	line_mesh.surface_begin(Mesh.PRIMITIVE_LINES) # Start creating line geometry

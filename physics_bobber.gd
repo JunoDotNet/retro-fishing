@@ -1,5 +1,6 @@
 
 extends RigidBody3D
+class_name FishingBobber
 signal settled
 
 @export var launch_speed: float = 8.0
